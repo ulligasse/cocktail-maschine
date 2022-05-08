@@ -1,0 +1,16 @@
+<mat-dialog-content class="mat-typography">
+  <mat-form-field class="full-width" appearance="fill">
+    <mat-label>Name der Zutat</mat-label>
+    <input matInput placeholder="z.B Vodka" [(ngModel)]="ingredient.name" />
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button
+    mat-button
+    [mat-dialog-close]="ingredient"
+    cdkFocusInitial
+    [disabled]="ingredient.name.length < 3"
+  >
+    Speichern
+  </button>
+</mat-dialog-actions>

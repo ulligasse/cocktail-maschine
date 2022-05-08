@@ -1,0 +1,57 @@
+<h1 mat-dialog-title>
+  {{ cocktail.id?.length == 0 ? "Neuen Cocktail anlegen" : cocktail.name }}
+</h1>
+<mat-dialog-content class="mat-typography">
+  <mat-form-field class="full-width" appearance="fill">
+    <mat-label>Name des Cocktails</mat-label>
+    <input matInput placeholder="z.B Deine Mudda" [(ngModel)]="cocktail.name" />
+  </mat-form-field>
+  <mat-divider style="margin-top: 10px; margin-bottom: 20px"></mat-divider>
+  <mat-form-field style="width: 85%" appearance="fill">
+    <mat-label>Zutat auswählen</mat-label>
+    <mat-select [(ngModel)]="selected_ingredient">
+      <mat-option *ngFor="let ingredient of ingredients" [value]="ingredient">
+        {{ ingredient.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button
+    mat-icon-button
+    style="margin-left: 5%; vertical-align: super"
+    (click)="addIngredient()"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+  <mat-card
+    *ngFor="let ingredient of cocktail.ingredients"
+    style="box-shadow: none"
+  >
+    <mat-card-subtitle>{{
+      getIngredientName(ingredient.id)
+    }}</mat-card-subtitle>
+    <mat-card-content>
+      <mat-slider
+        thumbLabel
+        [displayWith]="formatLabel"
+        tickInterval="1000"
+        step="1"
+        min="0"
+        max="400"
+        aria-label="units"
+        [(ngModel)]="ingredient.value"
+        style="width: 100%"
+      ></mat-slider>
+    </mat-card-content>
+    <mat-divider></mat-divider>
+  </mat-card>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button
+    mat-button
+    [mat-dialog-close]="cocktail"
+    cdkFocusInitial
+    [disabled]="cocktail.name.length < 3"
+  >
+    Speichern
+  </button>
+</mat-dialog-actions>

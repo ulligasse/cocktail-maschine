@@ -1,0 +1,41 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button [routerLink]="['/home']">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span>Benutzer wechseln</span>
+</mat-toolbar>
+<div class="container" style="max-width: 600px">
+  <mat-card>
+    <mat-card-title>Anmeldung</mat-card-title>
+    <mat-card-content style="margin-top: 50px">
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Passwort</mat-label>
+        <input matInput type="password" [(ngModel)]="password" />
+      </mat-form-field>
+      <button
+        (click)="loginAsAdmin()"
+        [disabled]="password.length < 3"
+        mat-flat-button
+        style="width: 100%; margin-bottom: 50px"
+        color="primary"
+      >
+        Als Admin fortfahren
+      </button>
+      <mat-divider
+        style="
+          margin-left: 5%;
+          width: 90%;
+          border-top-color: rgba(0, 0, 0, 0.5);
+        "
+      ></mat-divider>
+      <button
+        (click)="loginAsUser()"
+        mat-flat-button
+        style="width: 100%; margin-top: 50px"
+        color="primary"
+      >
+        Als Nutzer fortfahren
+      </button>
+    </mat-card-content>
+  </mat-card>
+</div>

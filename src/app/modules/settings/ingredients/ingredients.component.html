@@ -1,0 +1,29 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button [routerLink]="['/settings']">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span>Einstellungen - Zutaten</span>
+  <span class="spacer"></span>
+  <button mat-icon-button (click)="openIngredientsDialog()">
+    <mat-icon>add</mat-icon>
+  </button>
+</mat-toolbar>
+<div class="container">
+  <mat-card>
+    <mat-list role="list">
+      <mat-list-item
+        *ngFor="let ingredient of ingredients | async"
+        role="listitem"
+        >{{ ingredient.name }}
+        <span class="spacer"></span>
+        <button mat-icon-button (click)="openIngredientsDialog(ingredient)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button (click)="deleteIngredient(ingredient)">
+          <mat-icon>delete</mat-icon>
+        </button>
+        <mat-divider></mat-divider>
+      </mat-list-item>
+    </mat-list>
+  </mat-card>
+</div>

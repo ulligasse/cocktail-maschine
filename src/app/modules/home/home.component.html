@@ -1,0 +1,21 @@
+<mat-toolbar color="primary">
+  <span>Cocktail Maschine</span>
+  <span class="spacer"></span>
+  <button mat-icon-button [routerLink]="['/login']">
+    <mat-icon>switch_account</mat-icon>
+  </button>
+  <button mat-icon-button [routerLink]="['/settings']">
+    <mat-icon>settings</mat-icon>
+  </button>
+</mat-toolbar>
+<div class="container">
+  <mat-card
+    style="margin-top: 15px"
+    *ngFor="let cocktail of cocktails"
+    (click)="makeCocktail(cocktail)"
+  >
+    <mat-card-content
+      ><h1>{{ cocktail.name }}</h1></mat-card-content
+    >
+  </mat-card>
+</div>

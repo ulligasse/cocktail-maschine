@@ -1,0 +1,22 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button [routerLink]="['/settings']">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span>Einstellungen - Pumpen</span>
+</mat-toolbar>
+<div class="container">
+  <mat-card>
+    <mat-list role="list">
+      <mat-list-item
+        *ngFor="let pump of pumps | async; let i = index"
+        role="listitem"
+        >Pumpe {{ i + 1 }}
+        <span class="spacer"></span>
+        <button mat-icon-button (click)="openPumpsDialog(pump)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <mat-divider></mat-divider>
+      </mat-list-item>
+    </mat-list>
+  </mat-card>
+</div>

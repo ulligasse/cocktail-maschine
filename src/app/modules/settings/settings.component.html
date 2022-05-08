@@ -1,0 +1,25 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button [routerLink]="['/home']">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span>Einstellungen</span>
+</mat-toolbar>
+<div class="container">
+  <mat-card>
+    <mat-card-content>
+      <mat-list role="list">
+        <mat-list-item role="listitem" [routerLink]="['/cocktails']"
+          >Cocktails</mat-list-item
+        >
+        <mat-divider style="margin-left: 2%; margin-right: 2%"></mat-divider>
+        <mat-list-item role="listitem" [routerLink]="['/ingredients']"
+          >Zutaten</mat-list-item
+        >
+        <mat-divider style="margin-left: 2%; margin-right: 2%"></mat-divider>
+        <mat-list-item role="listitem" [routerLink]="['/pumps']"
+          >Pumpen</mat-list-item
+        >
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+</div>

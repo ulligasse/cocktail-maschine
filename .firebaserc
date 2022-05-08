@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "cocktail-maschine": {
+      "hosting": {
+        "cocktail-maschine": [
+          "cocktail-maschine"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "cocktail-maschine"
+  }
+}
