@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
@@ -17,10 +18,15 @@ import { DialogPumpsComponent } from './dialog-pumps/dialog-pumps.component';
 export class PumpsComponent implements OnInit {
   private ingredientCollection: AngularFirestoreCollection<Ingredient>;
   private pumpCollection: AngularFirestoreCollection<Pump>;
-  pumps: Observable<Pump[]> = new Observable<Pump[]>();
+  pumps: Pump[] = [];
   ingredients: Ingredient[] = [];
+  isAdmin: Boolean = false;
 
-  constructor(public dialog: MatDialog, afs: AngularFirestore) {
+  constructor(
+    public dialog: MatDialog,
+    afs: AngularFirestore,
+    private auth: AngularFireAuth
+  ) {
     this.ingredientCollection = afs.collection<Ingredient>('ingredients');
     this.ingredientCollection.get().subscribe((ingredients) => {
       ingredients.docs.forEach((ingredient) => {
@@ -32,18 +38,22 @@ export class PumpsComponent implements OnInit {
     });
 
     this.pumpCollection = afs.collection<Pump>('pumps');
-    this.pumps = this.pumpCollection.snapshotChanges().pipe(
-      map((pumps) =>
-        pumps.map((pump) => {
-          let data = pump.payload.doc.data();
-          data.id = pump.payload.doc.id;
-          return data;
-        })
-      )
-    );
+    this.pumpCollection.get().subscribe((pumps) => {
+      pumps.docs.forEach((pump) => {
+        this.pumps.push({
+          id: pump.id,
+          ingredient: pump.data().ingredient,
+          ml_per_second: pump.data().ml_per_second,
+        });
+      });
+    });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.auth.onAuthStateChanged((user) => {
+      if (user?.email?.includes('admin')) this.isAdmin = true;
+    });
+  }
 
   openPumpsDialog(pump?: Pump) {
     const dialogRef = this.dialog.open(DialogPumpsComponent, {
@@ -55,7 +65,10 @@ export class PumpsComponent implements OnInit {
       if (result.id.length > 0) {
         let id = result.id || new String();
         delete result.id;
-        this.pumpCollection.doc(id.toString()).set(result);
+        this.pumpCollection
+          .doc(id.toString())
+          .set(result)
+          .then((v) => location.reload());
       }
     });
   }

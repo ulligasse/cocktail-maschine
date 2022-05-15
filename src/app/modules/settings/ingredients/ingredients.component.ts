@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
@@ -20,26 +21,33 @@ import { DialogIngredientsComponent } from './dialog-ingredients/dialog-ingredie
 })
 export class IngredientsComponent implements OnInit {
   private ingredientCollection: AngularFirestoreCollection<Ingredient>;
-  ingredients: Observable<Ingredient[]> = new Observable<Ingredient[]>();
+  ingredients: Ingredient[] = [];
+  isAdmin: Boolean = false;
 
   constructor(
     public dialog: MatDialog,
     public afs: AngularFirestore,
-    public snackbar: MatSnackBar
+    public snackbar: MatSnackBar,
+    private auth: AngularFireAuth
   ) {
     this.ingredientCollection = afs.collection<Ingredient>('ingredients');
-    this.ingredients = this.ingredientCollection.snapshotChanges().pipe(
-      map((ingredients) =>
-        ingredients.map((ingredient) => {
-          let data = ingredient.payload.doc.data();
-          data.id = ingredient.payload.doc.id;
-          return data;
-        })
-      )
-    );
+    this.ingredientCollection.get().subscribe((ingredients) => {
+      ingredients.docs
+        .sort((a, b) => (a.data().name < b.data().name ? -1 : 1))
+        .forEach((ingredient) => {
+          this.ingredients.push({
+            id: ingredient.id,
+            name: ingredient.data().name,
+          });
+        });
+    });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.auth.onAuthStateChanged((user) => {
+      if (user?.email?.includes('admin')) this.isAdmin = true;
+    });
+  }
 
   openIngredientsDialog(ingredient?: Ingredient) {
     const dialogRef = this.dialog.open(DialogIngredientsComponent, {
@@ -51,8 +59,14 @@ export class IngredientsComponent implements OnInit {
       if (result.id.length > 0) {
         let id = result.id || new String();
         delete result.id;
-        this.ingredientCollection.doc(id.toString()).set(result);
-      } else this.ingredientCollection.add(JSON.parse(JSON.stringify(result)));
+        this.ingredientCollection
+          .doc(id.toString())
+          .set(result)
+          .then((v) => location.reload());
+      } else
+        this.ingredientCollection
+          .add(JSON.parse(JSON.stringify(result)))
+          .then((v) => location.reload());
     });
   }
 
@@ -101,8 +115,12 @@ export class IngredientsComponent implements OnInit {
               i++;
             }
 
-            if (!ingredient_in_use)
-              this.ingredientCollection.doc(ingredient.id?.toString()).delete();
+            if (!ingredient_in_use) {
+              this.ingredientCollection
+                .doc(ingredient.id?.toString())
+                .delete()
+                .then((v) => location.reload());
+            }
           });
       });
   }

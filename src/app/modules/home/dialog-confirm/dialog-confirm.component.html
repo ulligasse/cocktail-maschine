@@ -1,5 +1,18 @@
 <h1>Möchtest du "{{ cocktail.name }}" haben ?</h1>
+<mat-dialog-content>
+  <mat-slider
+    thumbLabel
+    [displayWith]="formatLabel"
+    tickInterval="1000"
+    step="1"
+    min="15"
+    max="400"
+    aria-label="units"
+    [(ngModel)]="totalMl"
+    style="margin-top: 20px; width: 100%"
+  ></mat-slider>
+</mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Ja</button
-  ><button mat-button [mat-dialog-close]="false" cdkFocusInitial>Nein</button>
+  <button mat-button (click)="closeDialog(true)" cdkFocusInitial>Ja</button
+  ><button mat-button (click)="closeDialog(false)" cdkFocusInitial>Nein</button>
 </mat-dialog-actions>

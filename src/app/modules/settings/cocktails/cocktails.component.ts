@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
@@ -15,22 +16,33 @@ import { DialogCocktailsComponent } from './dialog-cocktails/dialog-cocktails.co
 })
 export class CocktailsComponent implements OnInit {
   private cocktailCollection: AngularFirestoreCollection<Cocktail>;
-  cocktails: Observable<Cocktail[]> = new Observable<Cocktail[]>();
+  cocktails: Cocktail[] = [];
+  isAdmin: Boolean = false;
 
-  constructor(public dialog: MatDialog, afs: AngularFirestore) {
+  constructor(
+    public dialog: MatDialog,
+    afs: AngularFirestore,
+    private auth: AngularFireAuth
+  ) {
     this.cocktailCollection = afs.collection<Cocktail>('cocktails');
-    this.cocktails = this.cocktailCollection.snapshotChanges().pipe(
-      map((cocktails) =>
-        cocktails.map((cocktail) => {
-          let data = cocktail.payload.doc.data();
-          data.id = cocktail.payload.doc.id;
-          return data;
-        })
-      )
-    );
+    this.cocktailCollection.get().subscribe((cocktails) => {
+      cocktails.docs
+        .sort((a, b) => (a.data().name < b.data().name ? -1 : 1))
+        .forEach((cocktail) => {
+          this.cocktails.push({
+            id: cocktail.id,
+            name: cocktail.data().name,
+            ingredients: cocktail.data().ingredients,
+          });
+        });
+    });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.auth.onAuthStateChanged((user) => {
+      if (user?.email?.includes('admin')) this.isAdmin = true;
+    });
+  }
 
   openCocktailDialog(cocktail?: Cocktail) {
     const dialogRef = this.dialog.open(DialogCocktailsComponent, {
@@ -42,12 +54,21 @@ export class CocktailsComponent implements OnInit {
       if (result.id?.length > 0) {
         let id = result.id || new String();
         delete result.id;
-        this.cocktailCollection.doc(id.toString()).set(result);
-      } else this.cocktailCollection.add(JSON.parse(JSON.stringify(result)));
+        this.cocktailCollection
+          .doc(id.toString())
+          .set(result)
+          .then((v) => location.reload());
+      } else
+        this.cocktailCollection
+          .add(JSON.parse(JSON.stringify(result)))
+          .then((v) => location.reload());
     });
   }
 
   deleteCocktail(cocktail: Cocktail) {
-    this.cocktailCollection.doc(cocktail.id?.toString()).delete();
+    this.cocktailCollection
+      .doc(cocktail.id?.toString())
+      .delete()
+      .then((v) => location.reload());
   }
 }

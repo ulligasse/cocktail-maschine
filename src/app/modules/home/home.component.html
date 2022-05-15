@@ -1,6 +1,12 @@
 <mat-toolbar color="primary">
   <span>Cocktail Maschine</span>
   <span class="spacer"></span>
+  <button mat-icon-button (click)="prep()" *ngIf="isAdmin">
+    <mat-icon>power_settings_new</mat-icon>
+  </button>
+  <button mat-icon-button (click)="clean()" *ngIf="isAdmin">
+    <mat-icon>water_drop</mat-icon>
+  </button>
   <button mat-icon-button [routerLink]="['/login']">
     <mat-icon>switch_account</mat-icon>
   </button>

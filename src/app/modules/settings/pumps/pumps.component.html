@@ -7,12 +7,10 @@
 <div class="container">
   <mat-card>
     <mat-list role="list">
-      <mat-list-item
-        *ngFor="let pump of pumps | async; let i = index"
-        role="listitem"
+      <mat-list-item *ngFor="let pump of pumps; let i = index" role="listitem"
         >Pumpe {{ i + 1 }}
         <span class="spacer"></span>
-        <button mat-icon-button (click)="openPumpsDialog(pump)">
+        <button mat-icon-button (click)="openPumpsDialog(pump)" *ngIf="isAdmin">
           <mat-icon>edit</mat-icon>
         </button>
         <mat-divider></mat-divider>

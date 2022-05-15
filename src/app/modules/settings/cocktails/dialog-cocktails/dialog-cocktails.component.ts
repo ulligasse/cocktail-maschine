@@ -26,12 +26,14 @@ export class DialogCocktailsComponent implements OnInit {
   ) {
     this.ingredientCollection = afs.collection<Ingredient>('ingredients');
     this.ingredientCollection.get().subscribe((ingredients) => {
-      ingredients.docs.forEach((ingredient) => {
-        this.ingredients.push({
-          id: ingredient.id,
-          name: ingredient.data().name,
+      ingredients.docs
+        .sort((a, b) => (a.data().name < b.data().name ? -1 : 1))
+        .forEach((ingredient) => {
+          this.ingredients.push({
+            id: ingredient.id,
+            name: ingredient.data().name,
+          });
         });
-      });
     });
   }
 
@@ -39,9 +41,19 @@ export class DialogCocktailsComponent implements OnInit {
     return value + 'ml';
   }
 
+  checkSelect() {
+    return this.selected_ingredient.id?.length == 0;
+  }
+
   addIngredient() {
     this.cocktail.ingredients.push({ id: this.selected_ingredient.id });
     this.selected_ingredient = new Ingredient();
+  }
+
+  removeIngredient(ingredient: Ingredient) {
+    this.cocktail.ingredients = this.cocktail.ingredients.filter(
+      (v) => v != ingredient
+    );
   }
 
   getIngredientName(id: String): String {

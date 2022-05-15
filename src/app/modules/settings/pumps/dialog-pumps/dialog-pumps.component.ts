@@ -25,12 +25,14 @@ export class DialogPumpsComponent implements OnInit {
   ) {
     this.ingredientCollection = afs.collection<Ingredient>('ingredients');
     this.ingredientCollection.get().subscribe((ingredients) => {
-      ingredients.docs.forEach((ingredient) => {
-        this.ingredients.push({
-          id: ingredient.id,
-          name: ingredient.data().name,
+      ingredients.docs
+        .sort((a, b) => (a.data().name < b.data().name ? -1 : 1))
+        .forEach((ingredient) => {
+          this.ingredients.push({
+            id: ingredient.id,
+            name: ingredient.data().name,
+          });
         });
-      });
     });
   }
 

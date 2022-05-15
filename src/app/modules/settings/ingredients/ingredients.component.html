@@ -4,22 +4,28 @@
   </button>
   <span>Einstellungen - Zutaten</span>
   <span class="spacer"></span>
-  <button mat-icon-button (click)="openIngredientsDialog()">
+  <button mat-icon-button (click)="openIngredientsDialog()" *ngIf="isAdmin">
     <mat-icon>add</mat-icon>
   </button>
 </mat-toolbar>
 <div class="container">
   <mat-card>
     <mat-list role="list">
-      <mat-list-item
-        *ngFor="let ingredient of ingredients | async"
-        role="listitem"
+      <mat-list-item *ngFor="let ingredient of ingredients" role="listitem"
         >{{ ingredient.name }}
         <span class="spacer"></span>
-        <button mat-icon-button (click)="openIngredientsDialog(ingredient)">
+        <button
+          mat-icon-button
+          (click)="openIngredientsDialog(ingredient)"
+          *ngIf="isAdmin"
+        >
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button (click)="deleteIngredient(ingredient)">
+        <button
+          mat-icon-button
+          (click)="deleteIngredient(ingredient)"
+          *ngIf="isAdmin"
+        >
           <mat-icon>delete</mat-icon>
         </button>
         <mat-divider></mat-divider>

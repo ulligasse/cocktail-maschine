@@ -31,6 +31,7 @@ import { DialogCocktailsComponent } from './modules/settings/cocktails/dialog-co
 import { DialogPumpsComponent } from './modules/settings/pumps/dialog-pumps/dialog-pumps.component';
 import { DialogConfirmComponent } from './modules/home/dialog-confirm/dialog-confirm.component';
 import { LoginComponent } from './modules/login/login.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,12 @@ import { LoginComponent } from './modules/login/login.component';
     MatSelectModule,
     MatSliderModule,
     MatSnackBarModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],

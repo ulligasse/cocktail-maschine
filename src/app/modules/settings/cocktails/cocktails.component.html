@@ -4,20 +4,28 @@
   </button>
   <span>Einstellungen - Cocktails</span>
   <span class="spacer"></span>
-  <button mat-icon-button (click)="openCocktailDialog()">
+  <button mat-icon-button (click)="openCocktailDialog()" *ngIf="isAdmin">
     <mat-icon>add</mat-icon>
   </button>
 </mat-toolbar>
 <div class="container">
   <mat-card>
     <mat-list role="list">
-      <mat-list-item *ngFor="let cocktail of cocktails | async" role="listitem"
+      <mat-list-item *ngFor="let cocktail of cocktails" role="listitem"
         >{{ cocktail.name }}
         <span class="spacer"></span>
-        <button mat-icon-button (click)="openCocktailDialog(cocktail)">
+        <button
+          mat-icon-button
+          (click)="openCocktailDialog(cocktail)"
+          *ngIf="isAdmin"
+        >
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button (click)="deleteCocktail(cocktail)">
+        <button
+          mat-icon-button
+          (click)="deleteCocktail(cocktail)"
+          *ngIf="isAdmin"
+        >
           <mat-icon>delete</mat-icon>
         </button>
         <mat-divider></mat-divider>
