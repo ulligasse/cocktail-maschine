@@ -7,6 +7,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { map, Observable } from 'rxjs';
 import { Cocktail } from 'src/app/shared/models/cocktail.model';
+import { Ingredient } from 'src/app/shared/models/ingredient.model';
 import { DialogCocktailsComponent } from './dialog-cocktails/dialog-cocktails.component';
 
 @Component({
@@ -44,6 +45,16 @@ export class CocktailsComponent implements OnInit {
     });
   }
 
+  isIngredientsNumeric(cocktail: Cocktail) {
+    let numeric = true;
+
+    cocktail.ingredients.forEach((ingredient) => {
+      if (!parseFloat(ingredient.value)) numeric = false;
+    });
+
+    return numeric;
+  }
+
   openCocktailDialog(cocktail?: Cocktail) {
     const dialogRef = this.dialog.open(DialogCocktailsComponent, {
       width: '95%',
@@ -51,17 +62,21 @@ export class CocktailsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result.id?.length > 0) {
-        let id = result.id || new String();
-        delete result.id;
-        this.cocktailCollection
-          .doc(id.toString())
-          .set(result)
-          .then((v) => location.reload());
-      } else
-        this.cocktailCollection
-          .add(JSON.parse(JSON.stringify(result)))
-          .then((v) => location.reload());
+      if (result && this.isIngredientsNumeric(result)) {
+        if (result.id?.length > 0) {
+          let id = result.id || new String();
+          delete result.id;
+          this.cocktailCollection
+            .doc(id.toString())
+            .set(result)
+            .then((v) => location.reload());
+        } else
+          this.cocktailCollection
+            .add(JSON.parse(JSON.stringify(result)))
+            .then((v) => location.reload());
+      } else {
+        location.reload();
+      }
     });
   }
 

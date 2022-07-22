@@ -32,6 +32,8 @@ export class DialogCocktailsComponent implements OnInit {
           this.ingredients.push({
             id: ingredient.id,
             name: ingredient.data().name,
+            value: ingredient.data().value,
+            sparkling: ingredient.data().sparkling,
           });
         });
     });

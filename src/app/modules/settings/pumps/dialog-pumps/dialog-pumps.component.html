@@ -12,16 +12,10 @@
     </mat-select>
   </mat-form-field>
   <h5>Durchsatz der Pumpe in einer Sekunde (ml)</h5>
-  <mat-slider
-    thumbLabel
-    tickInterval="1000"
-    step="0.1"
-    min="0"
-    max="3"
-    aria-label="units"
-    style="width: 100%"
-    [(ngModel)]="pump.ml_per_second"
-  ></mat-slider>
+  <mat-form-field appearance="fill" style="width: 100%">
+    <mat-label>Durchsatz der Pumpe in einer Sekunde (ml)</mat-label>
+    <input matInput type="number" [(ngModel)]="pump.ml_per_second" />
+  </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button [mat-dialog-close]="pump" cdkFocusInitial>

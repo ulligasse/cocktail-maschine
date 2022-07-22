@@ -33,6 +33,8 @@ export class PumpsComponent implements OnInit {
         this.ingredients.push({
           id: ingredient.id,
           name: ingredient.data().name,
+          value: ingredient.data().value,
+          sparkling: ingredient.data().sparkling,
         });
       });
     });
@@ -62,14 +64,16 @@ export class PumpsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result.id.length > 0) {
-        let id = result.id || new String();
-        delete result.id;
-        this.pumpCollection
-          .doc(id.toString())
-          .set(result)
-          .then((v) => location.reload());
-      }
+      if (result && parseFloat(result.ml_per_second)) {
+        if (result.id.length > 0) {
+          let id = result.id || new String();
+          delete result.id;
+          this.pumpCollection
+            .doc(id.toString())
+            .set(result)
+            .then((v) => location.reload());
+        }
+      } else location.reload();
     });
   }
 }

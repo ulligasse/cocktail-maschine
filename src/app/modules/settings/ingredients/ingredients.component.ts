@@ -38,6 +38,8 @@ export class IngredientsComponent implements OnInit {
           this.ingredients.push({
             id: ingredient.id,
             name: ingredient.data().name,
+            value: ingredient.data().value,
+            sparkling: ingredient.data().sparkling,
           });
         });
     });
@@ -56,17 +58,21 @@ export class IngredientsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result.id.length > 0) {
-        let id = result.id || new String();
-        delete result.id;
-        this.ingredientCollection
-          .doc(id.toString())
-          .set(result)
-          .then((v) => location.reload());
-      } else
-        this.ingredientCollection
-          .add(JSON.parse(JSON.stringify(result)))
-          .then((v) => location.reload());
+      if (result) {
+        result.value = 0; // Dummy Value
+
+        if (result.id.length > 0) {
+          let id = result.id || new String();
+          delete result.id;
+          this.ingredientCollection
+            .doc(id.toString())
+            .set(result)
+            .then((v) => location.reload());
+        } else
+          this.ingredientCollection
+            .add(JSON.parse(JSON.stringify(result)))
+            .then((v) => location.reload());
+      } else location.reload();
     });
   }
 

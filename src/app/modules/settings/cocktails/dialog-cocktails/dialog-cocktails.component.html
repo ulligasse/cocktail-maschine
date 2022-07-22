@@ -27,21 +27,11 @@
     *ngFor="let ingredient of cocktail.ingredients"
     style="box-shadow: none"
   >
-    <mat-card-subtitle>{{
-      getIngredientName(ingredient.id)
-    }}</mat-card-subtitle>
     <mat-card-content>
-      <mat-slider
-        thumbLabel
-        [displayWith]="formatLabel"
-        tickInterval="1000"
-        step="1"
-        min="0"
-        max="400"
-        aria-label="units"
-        [(ngModel)]="ingredient.value"
-        style="width: 85%"
-      ></mat-slider>
+      <mat-form-field appearance="fill" style="width: 85%">
+        <mat-label>{{ getIngredientName(ingredient.id) }}</mat-label>
+        <input matInput type="number" [(ngModel)]="ingredient.value" />
+      </mat-form-field>
       <button
         mat-icon-button
         style="width: 15%; vertical-align: super"

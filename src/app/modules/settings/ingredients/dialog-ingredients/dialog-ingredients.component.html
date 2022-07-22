@@ -3,6 +3,7 @@
     <mat-label>Name der Zutat</mat-label>
     <input matInput placeholder="z.B Vodka" [(ngModel)]="ingredient.name" />
   </mat-form-field>
+  <mat-checkbox [(ngModel)]="ingredient.sparkling">Sprudelnd</mat-checkbox>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button

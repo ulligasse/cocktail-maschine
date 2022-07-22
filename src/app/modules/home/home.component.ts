@@ -104,10 +104,12 @@ export class HomeComponent implements OnInit {
                     .map((v) => v.ingredient)
                     .indexOf(ingredient.id);
 
+                  let amount = ingredient.value;
+                  if (ingredient.sparkling) amount = amount * 1.5; // If the ingredient has sparkles
+
                   job[pump_index + 1] = parseInt(
                     Number(
-                      ingredient.value /
-                        Number(this.pumps[pump_index].ml_per_second)
+                      amount / Number(this.pumps[pump_index].ml_per_second)
                     ).toFixed(0)
                   );
                 }
