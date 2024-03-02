@@ -1,23 +1,44 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Router, RouterModule } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+import { MatDivider } from '@angular/material/divider';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIcon } from '@angular/material/icon';
+import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatInput } from '@angular/material/input';
+import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
+  standalone: true,
+  imports: [
+    MatDivider,
+    MatToolbar,
+    MatIcon,
+    MatCard,
+    MatCardTitle,
+    MatCardContent,
+    MatFormField,
+    MatInput,
+    MatButton,
+    MatIconButton,
+    MatLabel,
+    FormsModule,
+    RouterModule,
+  ],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit {
-  password: String = new String();
+export class LoginComponent {
+  protected password: String = new String();
 
   constructor(
     private auth: AngularFireAuth,
     private router: Router,
     private snackbar: MatSnackBar
   ) {}
-
-  ngOnInit(): void {}
 
   loginAsAdmin() {
     this.auth

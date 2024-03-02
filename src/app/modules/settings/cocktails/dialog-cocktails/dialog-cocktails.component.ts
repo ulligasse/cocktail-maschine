@@ -1,20 +1,51 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
-  DocumentData,
 } from '@angular/fire/compat/firestore';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { map, Observable } from 'rxjs';
-import { Cocktail } from 'src/app/shared/models/cocktail.model';
-import { Ingredient } from 'src/app/shared/models/ingredient.model';
+import { Ingredient } from '../../../../shared/models/ingredient.model';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { Cocktail } from '../../../../shared/models/cocktail.model';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatDivider } from '@angular/material/divider';
+import { MatOption, MatSelect } from '@angular/material/select';
+import { MatCard, MatCardContent } from '@angular/material/card';
+import { MatIcon } from '@angular/material/icon';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatInput } from '@angular/material/input';
 
 @Component({
   selector: 'app-dialog-cocktails',
+  standalone: true,
+  imports: [
+    MatDialogContent,
+    MatDialogActions,
+    MatDialogClose,
+    MatFormField,
+    MatLabel,
+    MatDivider,
+    MatSelect,
+    MatInput,
+    MatOption,
+    MatButton,
+    MatIconButton,
+    MatCard,
+    MatCardContent,
+    MatIcon,
+    FormsModule,
+    CommonModule,
+  ],
   templateUrl: './dialog-cocktails.component.html',
-  styleUrls: ['./dialog-cocktails.component.scss'],
 })
-export class DialogCocktailsComponent implements OnInit {
+export class DialogCocktailsComponent {
   private ingredientCollection: AngularFirestoreCollection<Ingredient>;
   ingredients: Ingredient[] = [];
   selected_ingredient: Ingredient = new Ingredient();
@@ -61,6 +92,4 @@ export class DialogCocktailsComponent implements OnInit {
   getIngredientName(id: String): String {
     return this.ingredients.find((v) => v.id == id)?.name || new String();
   }
-
-  ngOnInit(): void {}
 }

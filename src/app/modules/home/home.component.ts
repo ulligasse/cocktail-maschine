@@ -1,23 +1,36 @@
-import { Component, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Component } from '@angular/core';
+import { Cocktail } from '../../shared/models/cocktail.model';
+import { Pump } from '../../shared/models/pump.model';
 import {
   AngularFirestoreCollection,
   AngularFirestore,
 } from '@angular/fire/compat/firestore';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
-import { Observable, map } from 'rxjs';
-import { Cocktail } from 'src/app/shared/models/cocktail.model';
-import { Pump } from 'src/app/shared/models/pump.model';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { DialogConfirmComponent } from './dialog-confirm/dialog-confirm.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIcon } from '@angular/material/icon';
+import { MatCard, MatCardContent } from '@angular/material/card';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { MatIconButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-home',
+  standalone: true,
+  imports: [
+    MatToolbar,
+    MatIcon,
+    MatCard,
+    MatIconButton,
+    MatCardContent,
+    RouterModule,
+    CommonModule,
+  ],
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
   private cocktailCollection!: AngularFirestoreCollection<Cocktail>;
   private pumpCollection!: AngularFirestoreCollection<Pump>;
   pumps: Pump[] = [];

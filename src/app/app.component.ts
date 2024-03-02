@@ -1,22 +1,12 @@
 import { Component } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  standalone: true,
+  imports: [RouterOutlet],
+  template: '<router-outlet></router-outlet>',
 })
 export class AppComponent {
   title = 'cocktail-maschine';
-
-  constructor(public auth: AngularFireAuth) {
-    this.auth.onAuthStateChanged((user) => {
-      if (!user) {
-        this.auth.signInWithEmailAndPassword(
-          'user@cocktail-maschine.web.app',
-          'Cocktail'
-        );
-      } else console.log(user.displayName);
-    });
-  }
 }

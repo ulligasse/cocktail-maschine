@@ -1,21 +1,39 @@
-import { Component, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Component } from '@angular/core';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
+import { Ingredient } from '../../../shared/models/ingredient.model';
+import { Pump } from '../../../shared/models/pump.model';
 import { MatDialog } from '@angular/material/dialog';
-import { map, Observable } from 'rxjs';
-import { Ingredient } from 'src/app/shared/models/ingredient.model';
-import { Pump } from 'src/app/shared/models/pump.model';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { DialogPumpsComponent } from './dialog-pumps/dialog-pumps.component';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIcon } from '@angular/material/icon';
+import { MatCard } from '@angular/material/card';
+import { MatList, MatListItem } from '@angular/material/list';
+import { MatDivider } from '@angular/material/divider';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { MatIconButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-pumps',
+  standalone: true,
+  imports: [
+    MatToolbar,
+    MatIcon,
+    MatCard,
+    MatList,
+    MatListItem,
+    MatDivider,
+    MatIconButton,
+    RouterModule,
+    CommonModule,
+  ],
   templateUrl: './pumps.component.html',
-  styleUrls: ['./pumps.component.scss'],
 })
-export class PumpsComponent implements OnInit {
+export class PumpsComponent {
   private ingredientCollection: AngularFirestoreCollection<Ingredient>;
   private pumpCollection: AngularFirestoreCollection<Pump>;
   pumps: Pump[] = [];

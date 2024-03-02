@@ -1,21 +1,38 @@
-import { Component, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Component } from '@angular/core';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
+import { Cocktail } from '../../../shared/models/cocktail.model';
 import { MatDialog } from '@angular/material/dialog';
-import { map, Observable } from 'rxjs';
-import { Cocktail } from 'src/app/shared/models/cocktail.model';
-import { Ingredient } from 'src/app/shared/models/ingredient.model';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { DialogCocktailsComponent } from './dialog-cocktails/dialog-cocktails.component';
+import { MatIcon } from '@angular/material/icon';
+import { MatCard } from '@angular/material/card';
+import { MatList, MatListItem } from '@angular/material/list';
+import { MatDivider } from '@angular/material/divider';
+import { MatToolbar } from '@angular/material/toolbar';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { MatIconButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-cocktails',
+  standalone: true,
+  imports: [
+    MatToolbar,
+    MatIcon,
+    MatCard,
+    MatList,
+    MatListItem,
+    MatDivider,
+    MatIconButton,
+    RouterModule,
+    CommonModule,
+  ],
   templateUrl: './cocktails.component.html',
-  styleUrls: ['./cocktails.component.scss'],
 })
-export class CocktailsComponent implements OnInit {
+export class CocktailsComponent {
   private cocktailCollection: AngularFirestoreCollection<Cocktail>;
   cocktails: Cocktail[] = [];
   isAdmin: Boolean = false;

@@ -1,5 +1,4 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { HomeComponent } from './modules/home/home.component';
 import { LoginComponent } from './modules/login/login.component';
 import { CocktailsComponent } from './modules/settings/cocktails/cocktails.component';
@@ -7,7 +6,7 @@ import { IngredientsComponent } from './modules/settings/ingredients/ingredients
 import { PumpsComponent } from './modules/settings/pumps/pumps.component';
 import { SettingsComponent } from './modules/settings/settings.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
@@ -37,9 +36,3 @@ const routes: Routes = [
     redirectTo: 'home',
   },
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
-})
-export class AppRoutingModule {}

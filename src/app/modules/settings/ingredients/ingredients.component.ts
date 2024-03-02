@@ -1,25 +1,41 @@
-import { Component, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Component } from '@angular/core';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
-  AngularFirestoreDocument,
 } from '@angular/fire/compat/firestore';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { Ingredient } from '../../../shared/models/ingredient.model';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
-import { map, Observable } from 'rxjs';
-import { Cocktail } from 'src/app/shared/models/cocktail.model';
-import { Ingredient } from 'src/app/shared/models/ingredient.model';
-import { Pump } from 'src/app/shared/models/pump.model';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { DialogIngredientsComponent } from './dialog-ingredients/dialog-ingredients.component';
+import { Cocktail } from '../../../shared/models/cocktail.model';
+import { Pump } from '../../../shared/models/pump.model';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIcon } from '@angular/material/icon';
+import { MatCard } from '@angular/material/card';
+import { MatList, MatListItem } from '@angular/material/list';
+import { MatDivider } from '@angular/material/divider';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { MatIconButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-ingredients',
+  standalone: true,
+  imports: [
+    MatToolbar,
+    MatIcon,
+    MatCard,
+    MatList,
+    MatListItem,
+    MatDivider,
+    MatIconButton,
+    RouterModule,
+    CommonModule,
+  ],
   templateUrl: './ingredients.component.html',
-  styleUrls: ['./ingredients.component.scss'],
 })
-export class IngredientsComponent implements OnInit {
+export class IngredientsComponent {
   private ingredientCollection: AngularFirestoreCollection<Ingredient>;
   ingredients: Ingredient[] = [];
   isAdmin: Boolean = false;

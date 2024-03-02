@@ -1,7 +1,6 @@
 <h1>Möchtest du "{{ cocktail.name }}" haben ?</h1>
 <mat-dialog-content>
   <mat-slider
-    thumbLabel
     [displayWith]="formatLabel"
     tickInterval="1000"
     step="1"
@@ -9,8 +8,11 @@
     max="400"
     aria-label="units"
     [(ngModel)]="totalMl"
+    name="totalMl"
+    ngDefaultControl
     style="margin-top: 20px; width: 100%"
-  ></mat-slider>
+    ><input matSliderThumb
+  /></mat-slider>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button (click)="closeDialog(true)" cdkFocusInitial>Ja</button

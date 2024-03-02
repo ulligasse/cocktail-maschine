@@ -1,19 +1,43 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { map, Observable } from 'rxjs';
-import { Ingredient } from 'src/app/shared/models/ingredient.model';
-import { Pump } from 'src/app/shared/models/pump.model';
+import { Ingredient } from '../../../../shared/models/ingredient.model';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { Pump } from '../../../../shared/models/pump.model';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatOption, MatSelect } from '@angular/material/select';
+import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatInput } from '@angular/material/input';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-dialog-pumps',
+  standalone: true,
+  imports: [
+    MatDialogContent,
+    MatFormField,
+    MatLabel,
+    MatSelect,
+    MatOption,
+    MatButton,
+    MatInput,
+    MatDialogActions,
+    MatDialogClose,
+    FormsModule,
+    CommonModule,
+  ],
   templateUrl: './dialog-pumps.component.html',
-  styleUrls: ['./dialog-pumps.component.scss'],
 })
-export class DialogPumpsComponent implements OnInit {
+export class DialogPumpsComponent {
   private ingredientCollection: AngularFirestoreCollection<Ingredient>;
   ingredients: Ingredient[] = [];
   selected_ingredient: Ingredient = new Ingredient();
@@ -37,6 +61,4 @@ export class DialogPumpsComponent implements OnInit {
         });
     });
   }
-
-  ngOnInit(): void {}
 }
